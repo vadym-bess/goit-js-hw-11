@@ -1,17 +1,17 @@
-export const fetchImages = async (inputValue, pageNr) => {
-  return await fetch(
-    `https://pixabay.com/api/?key=31450425-dd548763c25a86c415896ab3e&q=${inputValue}&orientation=horizontal&safesearch=true&image_type=photo&per_page=40&page=${pageNr}`
-  )
-    .then(async response => {
-      if (!response.ok) {
-        if (response.status === 404) {
-          return [];
-        }
-        throw new Error(response.status);
-      }
-      return await response.json();
-    })
-    .catch(error => {
-      console.error(error);
-    });
-};
+import axios from 'axios';
+
+async function fetchImages(name, page, perPage) {
+  const baseURL = 'https://pixabay.com/api/';
+  const key = '17192990-657186397c8897888bedd7043';
+
+  try {
+    const response = await axios.get(
+      `${baseURL}?key=${key}&q=${name}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=${perPage}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('ERROR: ' + error);
+  }
+}
+
+export { fetchImages };
